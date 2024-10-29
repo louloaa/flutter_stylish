@@ -24,11 +24,11 @@ Future<void> init() async {
   sl.registerLazySingleton<http.Client>(() => http.Client());
 
   // Register remote data sources
-  sl.registerLazySingleton<RemoteDataSourceImpl>(
+  sl.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<AuthRemoteDataSourceImpl>(
+  sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<UserRemoteDataSourceImpl>(
+  sl.registerLazySingleton<UserRemoteDataSource>(
       () => UserRemoteDataSourceImpl(client: sl()));
 
   // Register repositories with explicit types
