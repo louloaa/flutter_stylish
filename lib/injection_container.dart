@@ -24,7 +24,7 @@ Future<void> init() async {
   sl.registerLazySingleton<http.Client>(() => http.Client());
 
   // Register remote data sources
-  sl.registerLazySingleton<RemoteDataSourceImpl>(
+  sl.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImpl(client: sl()));
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(client: sl()));
@@ -46,4 +46,3 @@ Future<void> init() async {
   sl.registerLazySingleton<GetUserProfile>(() => GetUserProfile(sl()));
   sl.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(sl()));
 }
-/////////////**** */
