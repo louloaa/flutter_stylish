@@ -46,4 +46,4 @@ Future<void> init() async {
   sl.registerLazySingleton<GetUserProfile>(() => GetUserProfile(sl()));
   sl.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(sl()));
 }
-
+/////////////**** */
