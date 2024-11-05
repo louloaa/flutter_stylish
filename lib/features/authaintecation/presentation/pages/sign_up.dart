@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
@@ -22,14 +23,16 @@ class SignUpPageState extends State<SignUpPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoading = false;
 
+  final SnackbarMessage snackbarMessage = SnackbarMessage(); // Instantiate SnackbarMessage
+
   @override
   Widget build(BuildContext context) {
     var locale = Localizations.localeOf(context);
     bool isArabic = locale.languageCode == 'ar';
 
     return Scaffold(
-       key: _scaffoldKey,
-       drawer: const CustomDrawer(),
+      key: _scaffoldKey,
+      drawer: const CustomDrawer(),
       body: Stack(
         children: [
           BlocListener<AuthBloc, AuthState>(
@@ -39,8 +42,9 @@ class SignUpPageState extends State<SignUpPage> {
                   isLoading = false;
                 });
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(AppLocalizations.of(context)!.signedUpSuccessfully)),
+                  snackbarMessage.SuccessSnackBar(
+                    message: AppLocalizations.of(context)!.signedUpSuccessfully,
+                    context: context,
                   );
                   await Future.delayed(const Duration(seconds: 5));
                   if (context.mounted) {
@@ -51,8 +55,9 @@ class SignUpPageState extends State<SignUpPage> {
                 setState(() {
                   isLoading = false;
                 });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
+                snackbarMessage.ErrorSnackBar(
+                  message: state.message,
+                  context: context,
                 );
               } else if (state is AuthLoading) {
                 setState(() {
@@ -103,18 +108,21 @@ class SignUpPageState extends State<SignUpPage> {
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: isLoading ? null : () {
-                        if (passwordController.text == confirmPasswordController.text) {
-                          BlocProvider.of<AuthBloc>(context).add(SignUpEvent({
-                            'username': usernameController.text,
-                            'password': passwordController.text,
-                          }));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(AppLocalizations.of(context)!.passwordsDoNotMatch)),
-                          );
-                        }
-                      },
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              if (passwordController.text == confirmPasswordController.text) {
+                                BlocProvider.of<AuthBloc>(context).add(SignUpEvent({
+                                  'username': usernameController.text,
+                                  'password': passwordController.text,
+                                }));
+                              } else {
+                                snackbarMessage.ErrorSnackBar(
+                                  message: AppLocalizations.of(context)!.passwordsDoNotMatch,
+                                  context: context,
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 156, vertical: 15),
                         minimumSize: const Size(200, 60),
@@ -127,7 +135,8 @@ class SignUpPageState extends State<SignUpPage> {
                           ? const CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                             )
-                          : Text(AppLocalizations.of(context)!.signUp, style: const TextStyle(fontSize: 20, color: Colors.white)),
+                          : Text(AppLocalizations.of(context)!.signUp,
+                              style: const TextStyle(fontSize: 20, color: Colors.white)),
                     ),
                   ],
                 ),
@@ -143,7 +152,7 @@ class SignUpPageState extends State<SignUpPage> {
                 return IconButton(
                   icon: const Icon(Icons.menu, color: Colors.black),
                   onPressed: () {
-                  _scaffoldKey.currentState?.openDrawer();
+                    _scaffoldKey.currentState?.openDrawer();
                   },
                 );
               },

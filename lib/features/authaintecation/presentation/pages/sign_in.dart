@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import 'package:flutter_stylish/features/authaintecation/presentation/bloc/auth_event.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
@@ -18,24 +19,26 @@ class SignInPageState extends State<SignInPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final SnackbarMessage snackbarMessage = SnackbarMessage();  // Instantiate SnackbarMessage
+
   @override
   Widget build(BuildContext context) {
-    // Determine the current locale to decide on drawer placement
     var locale = Localizations.localeOf(context);
     bool isArabic = locale.languageCode == 'ar';
 
     return Scaffold(
-       key: _scaffoldKey,
-       drawer: const CustomDrawer(),
-      // Assigning drawer based on language
+      key: _scaffoldKey,
+      drawer: const CustomDrawer(),
       body: Stack(
         children: [
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) async {
               if (state is AuthSuccess) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(AppLocalizations.of(context)!.signedInSuccessfully)),
+                  snackbarMessage.SuccessSnackBar(
+                    message: AppLocalizations.of(context)!.signedInSuccessfully,
+                    context: context,
                   );
                   await Future.delayed(const Duration(seconds: 5));
                   if (context.mounted) {
@@ -43,12 +46,13 @@ class SignInPageState extends State<SignInPage> {
                   }
                 }
               } else if (state is AuthError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
+                snackbarMessage.ErrorSnackBar(
+                  message: state.message,
+                  context: context,
                 );
               }
             },
-            child: BlocBuilder<AuthBloc,  AuthState>(
+            child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 bool isLoading = state is AuthLoading;
 
@@ -98,14 +102,17 @@ class SignInPageState extends State<SignInPage> {
                       const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
-                          onPressed: isLoading ? null : () {
-                            BlocProvider.of<AuthBloc>(context).add(SignInEvent(
-                              usernameController.text,
-                              passwordController.text,
-                            ));
-                          },
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  BlocProvider.of<AuthBloc>(context).add(SignInEvent(
+                                    usernameController.text,
+                                    passwordController.text,
+                                  ));
+                                },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(horizontal: isArabic ? 120 : 156, vertical: 15),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: isArabic ? 120 : 156, vertical: 15),
                             minimumSize: const Size(200, 60),
                             backgroundColor: const Color.fromARGB(255, 236, 22, 112),
                             shape: RoundedRectangleBorder(
@@ -113,8 +120,12 @@ class SignInPageState extends State<SignInPage> {
                             ),
                           ),
                           child: isLoading
-                              ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
-                              : Text(AppLocalizations.of(context)!.login, style: const TextStyle(fontSize: 20, color: Colors.white)),
+                              ? const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+                              : Text(
+                                  AppLocalizations.of(context)!.login,
+                                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                                ),
                         ),
                       ),
                       const SizedBox(height: 40),
@@ -131,10 +142,7 @@ class SignInPageState extends State<SignInPage> {
                 return IconButton(
                   icon: const Icon(Icons.menu, color: Colors.black),
                   onPressed: () {
-                    // Open drawer or endDrawer based on language
-                   
-                     _scaffoldKey.currentState?.openDrawer();
-                   
+                    _scaffoldKey.currentState?.openDrawer();
                   },
                 );
               },
@@ -145,4 +153,3 @@ class SignInPageState extends State<SignInPage> {
     );
   }
 }
-

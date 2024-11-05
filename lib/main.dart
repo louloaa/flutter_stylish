@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
             locale: localizationProvider.locale ?? const Locale('en'),
 
             // Routes
-            initialRoute: '/sign_up',
+            initialRoute: '/edit_profile',
             routes: {
               '/home': (context) => HomePage(getProductsUseCase: di.sl()),
               '/trending': (context) => TrendingPage(getProductsUseCase: di.sl()),

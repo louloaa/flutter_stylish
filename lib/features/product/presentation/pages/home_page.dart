@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import 'package:flutter_stylish/features/product/domain/usecases/getproducts.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
 import '../bloc/product_state.dart';
 import '../widgets/drawer.dart';
 import '../widgets/nav.dart';
-import '../widgets/popup.dart';
 import '../widgets/product_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,6 +28,7 @@ class HomePageState extends State<HomePage> {
     'assets/pink.png', // Image after pink.png
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final SnackbarMessage snackbarMessage = SnackbarMessage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -625,7 +626,8 @@ class HomePageState extends State<HomePage> {
                   } else if (state is ProductError) {
                     // Show error message SnackBar if there is an error
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      showErrorSnackbar(context, 'No Internet Connection');
+                      snackbarMessage.PopupSnackBar(
+                          context, 'No Internet Connection');
                     });
                     return Center(
                         child:

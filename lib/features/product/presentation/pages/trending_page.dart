@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import '../../domain/usecases/getproducts.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
@@ -7,9 +8,9 @@ import '../bloc/product_state.dart';
 import '../widgets/drawer.dart';
 import '../widgets/nav.dart';
 import '../widgets/pagination.dart';
-import '../widgets/popup.dart';
 import '../widgets/product_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class TrendingPage extends StatefulWidget {
   final GetProductsUseCase getProductsUseCase;
 
@@ -27,14 +28,15 @@ class TrendingPageState extends State<TrendingPage> {
   final ScrollController _scrollController = ScrollController();
   final bool _showPaginationBar = false; // To control pagination bar visibility
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final SnackbarMessage snackbarMessage = SnackbarMessage();
   @override
   void initState() {
     super.initState();
 
     // Add listener to the scroll controller to detect scrolling to the bottom
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         context.read<ProductBloc>().add(FetchTrendingProducts());
       }
     });
@@ -49,43 +51,43 @@ class TrendingPageState extends State<TrendingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,  // Assign the key to Scaffold
+      key: _scaffoldKey, // Assign the key to Scaffold
       drawer: const CustomDrawer(),
-      resizeToAvoidBottomInset: false, // Prevents shifting when keyboard appears
+      resizeToAvoidBottomInset:
+          false, // Prevents shifting when keyboard appears
       body: Column(
         children: [
           const SizedBox(height: 40), // Space at the top of the screen
           // Top navigation icons
-         Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      _scaffoldKey.currentState
-                          ?.openDrawer(); // Open the drawer
-                    },
-                    child: Image.asset('assets/list.png'),
-                  ),
-                  Image.asset('assets/logo.png'),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/edit_profile');
-                    },
-                    child: Image.asset('assets/girl.png'),
-                  ),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _scaffoldKey.currentState?.openDrawer(); // Open the drawer
+                  },
+                  child: Image.asset('assets/list.png'),
+                ),
+                Image.asset('assets/logo.png'),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacementNamed('/edit_profile');
+                  },
+                  child: Image.asset('assets/girl.png'),
+                ),
+              ],
             ),
+          ),
           // Search bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                suffixIcon: const Icon(Icons.mic_none_outlined, color: Colors.grey),
+                suffixIcon:
+                    const Icon(Icons.mic_none_outlined, color: Colors.grey),
                 hintText: AppLocalizations.of(context)!.searchHint,
                 hintStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
@@ -120,7 +122,8 @@ class TrendingPageState extends State<TrendingPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        backgroundColor: Colors.white, // Button background color
+                        backgroundColor:
+                            Colors.white, // Button background color
                         foregroundColor: Colors.black, // Text color
                         elevation: 0,
                         side: const BorderSide(
@@ -146,7 +149,8 @@ class TrendingPageState extends State<TrendingPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        backgroundColor: Colors.white, // Button background color
+                        backgroundColor:
+                            Colors.white, // Button background color
                         foregroundColor: Colors.black, // Text color
                         elevation: 0,
                         side: const BorderSide(
@@ -174,8 +178,10 @@ class TrendingPageState extends State<TrendingPage> {
           // Expanded product grid section
           Expanded(
             child: BlocProvider(
-              create: (context) => ProductBloc(getProductsUseCase: widget.getProductsUseCase)
-                ..add(FetchTrendingProducts()), // Fetch the first page on initialization
+              create: (context) => ProductBloc(
+                  getProductsUseCase: widget.getProductsUseCase)
+                ..add(
+                    FetchTrendingProducts()), // Fetch the first page on initialization
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   if (state is ProductLoading) {
@@ -186,9 +192,11 @@ class TrendingPageState extends State<TrendingPage> {
                         // Display the GridView of products
                         Expanded(
                           child: GridView.builder(
-                            controller: _scrollController, // Attach scroll controller
+                            controller:
+                                _scrollController, // Attach scroll controller
                             padding: const EdgeInsets.all(10),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10,
@@ -210,12 +218,15 @@ class TrendingPageState extends State<TrendingPage> {
                       ],
                     );
                   } else if (state is ProductError) {
-  // Show error message SnackBar if there is an error
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    showErrorSnackbar(context, 'No Internet Connection');
-  });
-  return Center(child: Text(AppLocalizations.of(context)!.errorMessage));
-}
+                    // Show error message SnackBar if there is an error
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      snackbarMessage.PopupSnackBar(
+                          context, 'No Internet Connection');
+                    });
+                    return Center(
+                        child:
+                            Text(AppLocalizations.of(context)!.errorMessage));
+                  }
 
                   return Container();
                 },

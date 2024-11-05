@@ -1,6 +1,7 @@
 // presentation/pages/edit_profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import 'package:flutter_stylish/features/product/presentation/widgets/drawer.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
@@ -24,11 +25,12 @@ class EditProfilePageState extends State<EditProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showPassword = false; // State variable for password visibility
 
+  final SnackbarMessage snackbarMessage = SnackbarMessage(); // Instantiate SnackbarMessage
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context); // Fetch localizations
     if (localizations == null) {
-      // Handle the case where localizations is null (this shouldn't happen in normal usage)
       return const Center(child: Text("Localization not found"));
     }
 
@@ -40,13 +42,15 @@ class EditProfilePageState extends State<EditProfilePage> {
         listener: (context, state) {
           if (state is UserUpdated) {
             ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(localizations.profileUpdated)),
+            snackbarMessage.SuccessSnackBar(
+              message: localizations.profileUpdated,
+              context: context,
             );
           } else if (state is UserError) {
             ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Error")),
+            snackbarMessage.ErrorSnackBar(
+              message: "Error", // Adjust to use localized error if available
+              context: context,
             );
           }
         },
@@ -63,28 +67,25 @@ class EditProfilePageState extends State<EditProfilePage> {
             return ListView(
               padding: const EdgeInsets.all(40),
               children: [
-                // Header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        localizations.editProfile, // Use localized string
+                        localizations.editProfile,
                         style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.w500),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        _scaffoldKey.currentState
-                            ?.openDrawer(); // Open the drawer
+                        _scaffoldKey.currentState?.openDrawer();
                       },
                       child: Image.asset('assets/list.png'),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 40),
 
                 // Profile Picture
@@ -126,13 +127,12 @@ class EditProfilePageState extends State<EditProfilePage> {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(
-                                    'assets/profile.png'), // Your placeholder image
+                                image: AssetImage('assets/profile.png'),
                               ),
                             ),
                           ),
-                          errorWidget: (context, url, error) => Image.asset(
-                              'assets/profile.png'), // Optional error widget
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/profile.png'),
                         ),
                       ),
                       Positioned(
@@ -161,111 +161,93 @@ class EditProfilePageState extends State<EditProfilePage> {
                 const SizedBox(height: 35),
 
                 // Text Fields
-                buildTextField(localizations.username, usernameController,
-                    false), // Use localized string
-                buildTextField(localizations.password, passwordController,
-                    true), // Use localized string
-                buildTextField(localizations.city, cityController,
-                    false), // Use localized string
-                buildTextField(localizations.phone, phoneController,
-                    false), // Use localized string
+                buildTextField(localizations.username, usernameController, false),
+                buildTextField(localizations.password, passwordController, true),
+                buildTextField(localizations.city, cityController, false),
+                buildTextField(localizations.phone, phoneController, false),
                 const SizedBox(height: 35),
-                // Action Buttons
-  Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    SizedBox(
-      width: 150,
-      child: OutlinedButton(
-        onPressed: () async {
-          // Clear the controllers and reset them to the original values
-          usernameController.text = state.user.username;
-          passwordController.text = state.user.password;
-          cityController.text = state.user.city;
-          phoneController.text = state.user.phone;
 
-          // Capture the ScaffoldMessengerState to use after the async delay
-          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          usernameController.text = state.user.username;
+                          passwordController.text = state.user.password;
+                          cityController.text = state.user.city;
+                          phoneController.text = state.user.phone;
 
-          await Future.delayed(const Duration(seconds: 2));
+                          await Future.delayed(const Duration(seconds: 2));
 
-          // Show SnackBar using scaffoldMessenger after the async gap
-          if (mounted) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(
-                content: Text(localizations.discardChanges),
-              ),
-            );
-          }
-        },
-        child: Text(
-          localizations.cancel,
-          style: const TextStyle(
-            fontSize: 14,
-            letterSpacing: 2.2,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    ),
-    ElevatedButton(
-      onPressed: () async {
-        // Prepare updated user entity for saving
-        final updatedUser = UserEntity(
-          username: usernameController.text,
-          password: passwordController.text,
-          city: cityController.text,
-          phone: phoneController.text,
-        );
+                          if (mounted) {
+                            snackbarMessage.ErrorSnackBar(
+                              message: localizations.discardChanges,
+                              context: context,
+                            );
+                          }
+                        },
+                        child: Text(
+                          localizations.cancel,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 2.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final updatedUser = UserEntity(
+                          username: usernameController.text,
+                          password: passwordController.text,
+                          city: cityController.text,
+                          phone: phoneController.text,
+                        );
 
-        // Capture the ScaffoldMessengerState to use after async gap
-        final scaffoldMessenger = ScaffoldMessenger.of(context);
+                        context.read<UserBloc>().add(SaveProfile(updatedUser));
 
-        // Trigger SaveProfile event to update profile
-        context.read<UserBloc>().add(SaveProfile(updatedUser));
+                        await Future.delayed(const Duration(seconds: 2));
 
-        await Future.delayed(const Duration(seconds: 2));
-
-        // Show SnackBar using scaffoldMessenger after the async gap
-        if (mounted) {
-          scaffoldMessenger.showSnackBar(
-            SnackBar(
-              content: Text(localizations.profileUpdated),
-            ),
-          );
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 236, 22, 112),
-        padding: const EdgeInsets.symmetric(horizontal: 60),
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
-      child: Text(
-        localizations.save,
-        style: const TextStyle(
-          fontSize: 14,
-          letterSpacing: 2.2,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  ],
-),
+                        if (mounted) {
+                          snackbarMessage.SuccessSnackBar(
+                            message: localizations.profileUpdated,
+                            context: context,
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 236, 22, 112),
+                        padding: const EdgeInsets.symmetric(horizontal: 60),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        localizations.save,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          letterSpacing: 2.2,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             );
           } else if (state is UserError) {
-            return const Center(
-                child: Text('Error')); // Localized error message
+            return const Center(child: Text('Error'));
           }
-          return const Center(
-              child: Text("Loading...")); // Use localized string
+          return const Center(child: Text("Loading..."));
         },
       ),
     );
   }
+
   Widget buildTextField(String labelText, TextEditingController controller,
       bool isPasswordTextField) {
     return Padding(
@@ -278,8 +260,7 @@ class EditProfilePageState extends State<EditProfilePage> {
               ? IconButton(
                   onPressed: () {
                     setState(() {
-                      showPassword =
-                          !showPassword; // Toggle password visibility
+                      showPassword = !showPassword;
                     });
                   },
                   icon: const Icon(
@@ -302,3 +283,5 @@ class EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
+
+
