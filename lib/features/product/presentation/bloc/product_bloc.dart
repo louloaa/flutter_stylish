@@ -53,6 +53,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       // Determine if there are more products to load based on the number of fetched products
       bool hasMore = products.length >= 4; // Adjust based on your needs
 
+      // TODO CODE-REVIEW for best practice you can use copy with method instead of generate new state every time
+      // TODO CODE-REVIEW how  store the previous data state ?
       // Emit the loaded state with the currentPage and hasMore flag
       emit(ProductLoaded(products, currentPage,
           hasMore: hasMore)); // Pass hasMore here

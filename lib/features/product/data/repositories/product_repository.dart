@@ -12,6 +12,10 @@ class ProductRepositoryImpl implements ProductRepository {
     // Fetch the products from the remote data source, passing the page and limit
     final List<ProductModel> productModels = await remoteDataSource.getProducts(page: page, limit: limit);
 
+    /**
+     * TODO CODE-REVIEW you use model and entity wrong
+     * the getProducts should implement and return response entity, So you can use the business logic as the ui need 
+     */
     // Map ProductModel to Product
     return productModels.map((productModel) {
       return Product(

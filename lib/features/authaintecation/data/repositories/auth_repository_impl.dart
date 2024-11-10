@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import 'package:logger/logger.dart';
+// TODO CODE-REVIEW the code review that added must applying on whole file
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -10,24 +11,30 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
-Future<bool> signIn(String username, String password) async {
-  try {
-    // Call API to authenticate user and retrieve token
-    final token = await remoteDataSource.signIn(username, password);
+  Future<bool> signIn(String username, String password) async {
+    try {
+      /**
+       *     TODO CODE-REVIEW don't use dynamic variable
+       *     is better for testing and review the bugs
+       *     ex: final bool token better than final token
+       */
 
-    // Check if the token is valid (not null)
-    logger.i('Token received: $token');
+      // Call API to authenticate user and retrieve token
+      final token = await remoteDataSource.signIn(username, password);
 
-    // Ensure the token is not null before storing it
-    // Store the token in SharedPreferences
-  
-    logger.i('Token stored in SharedPreferences');
-    return true; // Sign-in successful
+      // Check if the token is valid (not null)
+      logger.i('Token received: $token');
+
+      // Ensure the token is not null before storing it
+      // Store the token in SharedPreferences
+
+      logger.i('Token stored in SharedPreferences');
+      return true; // Sign-in successful
     } catch (e) {
-    logger.e('Error during signIn: $e');
-    throw UserNotFoundException("Error during sign-in: ${e.toString()}");
+      logger.e('Error during signIn: $e');
+      throw UserNotFoundException("Error during sign-in: ${e.toString()}");
+    }
   }
-}
 
   @override
   Future<bool> signUp(Map<String, dynamic> userDetails) async {
@@ -49,6 +56,7 @@ Future<bool> signIn(String username, String password) async {
 
 class UserNotFoundException implements Exception {
   final String message;
+
   UserNotFoundException(
       [this.message = "User not found or invalid credentials"]);
 

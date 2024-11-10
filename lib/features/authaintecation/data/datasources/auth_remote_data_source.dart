@@ -3,13 +3,30 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// TODO CODE-REVIEW the code review that added must applying on whole file
 abstract class AuthRemoteDataSource {
+  /**
+   * TODO CODE-REVIEW use request entity instead of ordered params
+   * for ex : signIn({required SignInRequestEntity entity})
+   */
+
   Future<bool> signIn(String username, String password);
+
   Future<bool> signUp(Map<String, dynamic> userDetails);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  /**
+   * TODO CODE-REVIEW the client instance of http.Client class in your project is repeated in each data source file
+   * for best practice define in separate file as const variable and used it when you want
+   */
+
   final http.Client client;
+
+  /**
+   * TODO CODE-REVIEW the logger instance of Logger class in your project is repeated in each file
+   * for best practice define in separate file as const variable and used it when you want
+   */
   final Logger logger = Logger();
 
   AuthRemoteDataSourceImpl({required this.client});
@@ -24,6 +41,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       });
       logger.i('Sending signIn request with payload: $payload');
 
+      /**
+       * TODO CODE-REVIEW when you use request entity the entity must contained toJson method
+       * for better practice use toJson method instead of payload
+       */
+
+      /**
+       * TODO CODE-REVIEW the api url endpoint should be in separate file as a const variable
+       * and use that variable instead of ,for best practice
+       */
+
+      /**
+       * TODO CODE-REVIEW the headers map structure is better to define in way not to repeat in each api request
+       */
       final response = await client.post(
         Uri.parse('https://fakestoreapi.com/auth/login'),
         headers: {
@@ -36,6 +66,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       logger.i('Response Body: ${response.body}');
       logger.i('Status Code: ${response.statusCode}');
 
+      /**
+       * TODO CODE-REVIEW the api logic should be applied in business logic layer so in BLoC or Cubit structure
+       */
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
         ///////////store token/////////////////////

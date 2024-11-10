@@ -7,6 +7,7 @@ import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
 import '../widget/text_field_widget.dart';
+// TODO CODE-REVIEW the code review that added must applying on whole same widgets
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -152,4 +153,8 @@ class SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
+/**
+ * TODO for TextEditingController you have to dispose them in the dispose stateful widget method
+ */
 }

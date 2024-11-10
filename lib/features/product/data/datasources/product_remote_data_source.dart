@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
+// TODO CODE-REVIEW the code review that added must applying on whole file
 abstract class RemoteDataSource {
+  // TODO CODE-REVIEW use response entity not model
+  // TODO : use should know the difference between entity and model
   Future<List<ProductModel>> getProducts({int page, int limit});
 }
 

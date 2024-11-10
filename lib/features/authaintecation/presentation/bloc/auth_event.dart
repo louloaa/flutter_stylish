@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+// TODO CODE-REVIEW the code review that added must applying on whole file
 
 abstract class AuthEvent extends Equatable {
   @override
@@ -10,7 +11,7 @@ class SignInEvent extends AuthEvent {
   final String password;
 
   SignInEvent(this.username, this.password);
-
+  // TODO CODE-REVIEW add copy with method , is better for events in bloc
   @override
   List<Object> get props => [username, password];
 }
