@@ -11,8 +11,8 @@
 
   class UserRequestEntity {
     UserRequestEntity({
-      String? username,
-      String? password,
+    String? username,
+    String? password,
     }) {
       _username = username;
       _password = password;

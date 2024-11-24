@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/product_bloc.dart'; // Import the BLoC
 import '../bloc/product_event.dart'; // Import the navigation events
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -66,13 +67,13 @@ class BottomNavigationBarComponent extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0: // Home
-        Navigator.pushNamed(context, '/home');
+        context.go('/home');
         break;
       case 1: // Wishlist
-        Navigator.pushNamed(context, '/trending'); 
+        context.go('/trending'); 
         break;
       case 2: // Product
-        Navigator.pushNamed(context, '/product'); 
+        context.go('/product'); 
         break;
     }
   }

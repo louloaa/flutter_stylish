@@ -1,6 +1,6 @@
-class UserEntity {
-  final String username;
-  final String password;
+//class UserEntity {
+  //final String username;
+ // final String password;
 
-  UserEntity({required this.username, required this.password});
-}
+//  UserEntity({required this.username, required this.password});
+//}

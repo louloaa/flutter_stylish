@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import 'package:flutter_stylish/features/authaintecation/presentation/bloc/auth_event.dart';
+import 'package:go_router/go_router.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
@@ -23,6 +24,14 @@ class SignInPageState extends State<SignInPage> {
 
   final SnackbarMessage snackbarMessage = SnackbarMessage();  // Instantiate SnackbarMessage
 
+  // Dispose of controllers to prevent memory leaks
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+//
   @override
   Widget build(BuildContext context) {
     var locale = Localizations.localeOf(context);
@@ -43,7 +52,7 @@ class SignInPageState extends State<SignInPage> {
                   );
                   await Future.delayed(const Duration(seconds: 5));
                   if (context.mounted) {
-                    Navigator.of(context).pushReplacementNamed('/home');
+                  context.replace('/home');
                   }
                 }
               } else if (state is AuthError) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stylish/core/util/snackbar_message.dart';
 import 'package:flutter_stylish/features/product/domain/usecases/getproducts.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
 import '../bloc/product_state.dart';
@@ -55,8 +56,7 @@ class HomePageState extends State<HomePage> {
                   Image.asset('assets/logo.png'),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/edit_profile');
+                     context.replace('/edit_profile');
                     },
                     child: Image.asset('assets/girl.png'),
                   ),
@@ -668,7 +668,7 @@ class HomePageState extends State<HomePage> {
               selectedIndex = 2; // Update the selected index
             });
             // Navigate to the product page
-            Navigator.pushNamed(context, '/product');
+            context.go('/product');
           },
         ),
       ),

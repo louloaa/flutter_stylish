@@ -1,6 +1,6 @@
-// data/datasources/remote_data_source.dart
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter_stylish/core/util/api.dart';
+import 'package:flutter_stylish/core/util/http.dart';
 import '../models/user_model.dart';
 
 // TODO CODE-REVIEW use the same TODO notes in previous data source
@@ -10,29 +10,34 @@ abstract class UserRemoteDataSource {
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
-  final http.Client client;
-
-  UserRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserModel> getUserProfile(int userId) async {
-    final response = await client.get(Uri.parse('https://fakestoreapi.com/users/$userId'));
-    if (response.statusCode == 200) {
-      return UserModel.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load user profile');
+    try {
+      final response = await apiClient.get('$profile$userId');
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Failed to load user profile. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error loading user profile: $e');
+    }
+  }
+  
+@override
+  Future<void> updateUserProfile(UserModel user) async {
+    try {
+      final response = await apiClient.put(
+        updateProfile, // Replace with the actual update profile URL
+        body: json.encode(user.toJson()),
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update user profile. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error updating user profile: $e');
     }
   }
 
-  @override
-  Future<void> updateUserProfile(UserModel user) async {
-    final response = await client.put(
-      Uri.parse('https://fakestoreapi.com/users/7'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(user.toJson()),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to update user profile');
-    }
-  }
 }

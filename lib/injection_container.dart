@@ -14,22 +14,21 @@ import 'package:flutter_stylish/features/profile/domain/usecases/get_user_profil
 import 'package:flutter_stylish/features/profile/domain/usecases/update_user_profile.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-
 // Import your classes here
 
 final sl = GetIt.instance;
-
+final client = http.Client();
 Future<void> init() async {
   // Register HTTP client
-  sl.registerLazySingleton<http.Client>(() => http.Client());
+  sl.registerLazySingleton<http.Client>(() => client);
 
   // Register remote data sources
   sl.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImpl(client: sl()));
+      () => RemoteDataSourceImpl());
   sl.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(client: sl()));
+      () => AuthRemoteDataSourceImpl());
   sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl(client: sl()));
+      () => UserRemoteDataSourceImpl());
 
   // Register repositories with explicit types
   sl.registerLazySingleton<ProductRepository>(
@@ -38,10 +37,10 @@ Future<void> init() async {
       () => AuthRepositoryImpl(remoteDataSource: sl()));
   sl.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(remoteDataSource: sl()));
-
+     
   // Register use cases
   sl.registerLazySingleton<GetProductsUseCase>(() => GetProductsUseCase(sl()));
-  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(sl()));
+  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(authRepository: sl()));
   sl.registerLazySingleton<SignUpUseCase>(() => SignUpUseCase(sl()));
   sl.registerLazySingleton<GetUserProfile>(() => GetUserProfile(sl()));
   sl.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(sl()));

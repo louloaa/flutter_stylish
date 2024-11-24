@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_stylish/core/util/snackbar_message.dart';
+import 'package:go_router/go_router.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
@@ -35,36 +36,36 @@ class SignUpPageState extends State<SignUpPage> {
       drawer: const CustomDrawer(),
       body: Stack(
         children: [
-          BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) async {
-              if (state is AuthSuccess) {
-                setState(() {
-                  isLoading = false;
-                });
-                if (context.mounted) {
-                  snackbarMessage.SuccessSnackBar(
-                    message: AppLocalizations.of(context)!.signedUpSuccessfully,
-                    context: context,
-                  );
-                  await Future.delayed(const Duration(seconds: 5));
-                  if (context.mounted) {
-                    Navigator.of(context).pushReplacementNamed('/sign_in');
-                  }
-                }
-              } else if (state is AuthError) {
-                setState(() {
-                  isLoading = false;
-                });
-                snackbarMessage.ErrorSnackBar(
-                  message: state.message,
-                  context: context,
-                );
-              } else if (state is AuthLoading) {
-                setState(() {
-                  isLoading = true;
-                });
-              }
-            },
+BlocListener<AuthBloc, AuthState>(
+  listener: (context, state) async {
+    if (state is AuthSuccess) {
+      setState(() {
+        isLoading = false;
+      });
+      if (context.mounted) {
+        snackbarMessage.SuccessSnackBar(
+          message: AppLocalizations.of(context)!.signedUpSuccessfully,
+          context: context,
+        );
+        await Future.delayed(const Duration(seconds: 5));
+        if (context.mounted) { // Ensure context is still valid
+          context.replace('/sign_in');
+        }
+      }
+    } else if (state is AuthError) {
+      setState(() {
+        isLoading = false;
+      });
+      snackbarMessage.ErrorSnackBar(
+        message: state.message,
+        context: context,
+      );
+    } else if (state is AuthLoading) {
+      setState(() {
+        isLoading = true;
+      });
+    }
+  },
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(top: 160),

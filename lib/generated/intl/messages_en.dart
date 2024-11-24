@@ -28,12 +28,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
         "back": MessageLookupByLibrary.simpleMessage("Back!"),
         "beauty": MessageLookupByLibrary.simpleMessage("Beauty"),
+        "cancel": MessageLookupByLibrary.simpleMessage("CANCEL"),
+        "city": MessageLookupByLibrary.simpleMessage("City"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "dealOfTheDay": MessageLookupByLibrary.simpleMessage("Deal of the Day"),
         "deliveryIn": MessageLookupByLibrary.simpleMessage("Delivery in"),
         "deliveryTime": MessageLookupByLibrary.simpleMessage("1 within Hour"),
+        "discardChanges":
+            MessageLookupByLibrary.simpleMessage("Changes discarded."),
         "discountOffer": MessageLookupByLibrary.simpleMessage("50-40% OFF"),
+        "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "errorMessage": MessageLookupByLibrary.simpleMessage(
             "An error occurred, please try again."),
@@ -61,14 +66,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "productDetails":
             MessageLookupByLibrary.simpleMessage("Product Details"),
         "productPromo":
             MessageLookupByLibrary.simpleMessage("Now in (product)"),
+        "profileUpdated": MessageLookupByLibrary.simpleMessage(
+            "Profile updated successfully!"),
         "readMoreText": MessageLookupByLibrary.simpleMessage(
             "Perhaps the most iconic sneaker of all-time, this original\n\'Chicago\' colorway is the cornerstone to any sneaker\ncollection. Made famous in 1985 by Michael Jordan, the\nshoe has stood the test of time, becoming the most\nfamous colorway of the Air Jordan 1. This 2015 release saw\nthe.\nshoe has stood the test of time, becoming the most in 2024.\n"),
         "rewardMessage": MessageLookupByLibrary.simpleMessage(
             "Stand a chance to get rewarded"),
+        "save": MessageLookupByLibrary.simpleMessage("SAVE"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "searchHint": MessageLookupByLibrary.simpleMessage("Search products"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

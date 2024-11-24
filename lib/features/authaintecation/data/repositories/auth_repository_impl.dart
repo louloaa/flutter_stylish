@@ -1,3 +1,4 @@
+import 'package:flutter_stylish/features/authaintecation/domain/entities/user_request_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
@@ -11,25 +12,21 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<bool> signIn(String username, String password) async {
+ Future<String?>signIn(String username, String password) async {
     try {
-      /**
-       *     TODO CODE-REVIEW don't use dynamic variable
-       *     is better for testing and review the bugs
-       *     ex: final bool token better than final token
-       */
-
       // Call API to authenticate user and retrieve token
-      final token = await remoteDataSource.signIn(username, password);
+      final String? token = await remoteDataSource.signIn(
+        entity: UserRequestEntity(username: username, password: password),
+      );
 
-      // Check if the token is valid (not null)
-      logger.i('Token received: $token');
-
-      // Ensure the token is not null before storing it
-      // Store the token in SharedPreferences
-
-      logger.i('Token stored in SharedPreferences');
-      return true; // Sign-in successful
+      // Log and return the token
+      if (token != null) {
+        logger.i('Token received: $token');
+        return token; // Return token if authentication is successful
+      } else {
+        logger.w('Sign-in failed: Token is null');
+        return null; // Return null if token is not found
+      }
     } catch (e) {
       logger.e('Error during signIn: $e');
       throw UserNotFoundException("Error during sign-in: ${e.toString()}");

@@ -1,13 +1,19 @@
+import 'package:flutter_stylish/features/authaintecation/domain/entities/user_request_entity.dart';
 import '../repositories/auth_repository.dart';
 // TODO CODE-REVIEW the code review that added must applying on whole file
 
 class SignInUseCase {
-  final AuthRepository repository;
+  final AuthRepository authRepository;
 
-  SignInUseCase(this.repository);
+  SignInUseCase({required this.authRepository});
 
-  // TODO CODE-REVIEW use the request entity as named params
-  Future<bool> execute(String username, String password) {
-    return repository.signIn(username, password);
+  Future<String?> execute(UserRequestEntity userRequest) async {
+    // Ensure that username and password are non-null
+    if (userRequest.username == null || userRequest.password == null) {
+      throw ArgumentError('Username or password cannot be null');
+    }
+
+    return await authRepository.signIn(userRequest.username!, userRequest.password!);
   }
 }
+

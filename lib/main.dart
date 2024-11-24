@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/bloc/auth_bloc.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/pages/sign_in.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/pages/sign_up.dart';
-import 'package:flutter_stylish/features/profile/presentation/bloc/user_bloc.dart';
-import 'package:flutter_stylish/features/profile/presentation/bloc/user_event.dart';
-import 'package:flutter_stylish/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'features/product/presentation/bloc/product_bloc.dart';
-import 'features/product/presentation/pages/home_page.dart';
-import 'features/product/presentation/pages/product_page.dart';
-import 'features/product/presentation/pages/trending_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'injection_container.dart' as di; // Import dependency injection
+import 'core/util/app_routes.dart';
+import 'features/authaintecation/presentation/bloc/auth_bloc.dart';
+import 'features/product/presentation/bloc/product_bloc.dart';
+import 'features/profile/presentation/bloc/user_bloc.dart';
+import 'features/profile/presentation/bloc/user_event.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +23,7 @@ void main() async {
   );
 }
 
-// Define LocalizationProvider within main.dart
+// Define LocalizationProvider directly in main.dart
 class LocalizationProvider with ChangeNotifier {
   Locale? _locale;
 
@@ -48,6 +44,9 @@ class LocalizationProvider with ChangeNotifier {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // Create a single instance of the router
+  static final GoRouter _router = createRouter();
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LocalizationProvider>(
@@ -59,18 +58,19 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<AuthBloc>(
               create: (_) => AuthBloc(
-                signInUseCase: di.sl(),
                 signUpUseCase: di.sl(),
+                signInUseCase: di.sl(),
+                
               ),
             ),
             BlocProvider<UserBloc>(
               create: (_) => UserBloc(
                 getUserProfile: di.sl(),
                 updateUserProfile: di.sl(),
-              )..add(FetchProfile()), // Fetch user profile on start
+              )..add(FetchProfile()),
             ),
           ],
-          child: MaterialApp(
+          child: MaterialApp.router(
             title: 'App',
             theme: ThemeData(
               primarySwatch: Colors.blue,
@@ -91,25 +91,10 @@ class MyApp extends StatelessWidget {
             ],
             locale: localizationProvider.locale ?? const Locale('en'),
 
-            // Routes
-            initialRoute: '/edit_profile',
-            routes: {
-              '/home': (context) => HomePage(getProductsUseCase: di.sl()),
-              '/trending': (context) => TrendingPage(getProductsUseCase: di.sl()),
-              '/product': (context) => ProductPage(getProductsUseCase: di.sl()),
-              '/sign_in': (context) => const SignInPage(),
-              '/sign_up': (context) => const SignUpPage(),
-              '/edit_profile': (context) => const EditProfilePage(),
-            },
-
-            localeResolutionCallback: (locale, supportedLocales) {
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale?.languageCode) {
-                  return supportedLocale;
-                }
-              }
-              return supportedLocales.first;
-            },
+            // Use the single GoRouter instance
+            routerDelegate: _router.routerDelegate,
+            routeInformationParser: _router.routeInformationParser,
+            routeInformationProvider: _router.routeInformationProvider,
           ),
         );
       },

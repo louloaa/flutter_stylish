@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter_stylish/core/util/api.dart';
+import 'package:flutter_stylish/core/util/http.dart';
 import '../models/product_model.dart';
 // TODO CODE-REVIEW the code review that added must applying on whole file
 abstract class RemoteDataSource {
@@ -10,17 +11,14 @@ abstract class RemoteDataSource {
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
-  final http.Client client;
-
-  RemoteDataSourceImpl({required this.client});
 
   @override
   Future<List<ProductModel>> getProducts({int page = 1, int limit = 4}) async {
     try {
       // Fetch all products from the API
-      final url = Uri.parse('https://fakestoreapi.com/products');
-      final response = await client
-          .get(url)
+      
+      final response = await apiClient
+          .get(products)
           .timeout(const Duration(seconds: 10)); // Handle request timeout
 
       if (response.statusCode == 200) {

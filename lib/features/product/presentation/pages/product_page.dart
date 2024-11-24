@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stylish/core/util/snackbar_message.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/usecases/getproducts.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
@@ -473,7 +474,7 @@ class ProductPageState extends State<ProductPage> {
               selectedIndex = 2; // Update the selected index
             });
             // Navigate to the product page
-            Navigator.pushNamed(context, '/product');
+            context.go('/product');
           },
         ),
       ),
