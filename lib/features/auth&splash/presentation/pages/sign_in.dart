@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_stylish/core/util/snackbar_message.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/bloc/auth_event.dart';
+import 'package:flutter_stylish/features/auth&splash/presentation/bloc/auth_event.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
@@ -81,7 +81,7 @@ class SignInPageState extends State<SignInPage> {
                       const SizedBox(height: 25),
                       TextFieldWidget(
                         hintText: AppLocalizations.of(context)!.password,
-                        suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                        suffixIcon: const Icon(Icons.visibility_off),
                         prefixIcon: const Icon(Icons.lock),
                         controller: passwordController,
                       ),

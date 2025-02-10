@@ -121,7 +121,7 @@ class ProductPageState extends State<ProductPage> {
               height: 8,
             ),
 
-            Padding(
+Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment:
@@ -222,6 +222,9 @@ class ProductPageState extends State<ProductPage> {
                 ],
               ),
             ),
+
+
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
@@ -260,38 +263,35 @@ class ProductPageState extends State<ProductPage> {
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Filter action
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: Directionality.of(context) == TextDirection.rtl
-                          ? const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 8) // Arabic padding
-                          : const EdgeInsets.symmetric(
-                              horizontal: 23, vertical: 10),
-                      backgroundColor: Colors.white, // Button background color
-                      foregroundColor: Colors.black, // Text color
-                      elevation: 0,
-                      side: const BorderSide(
-                        color: Color.fromARGB(255, 230, 230, 230),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/Frame.png'),
-                        const SizedBox(width: 5),
-                        Text(
-                          AppLocalizations.of(context)!
-                              .addToCompare, // Localized string
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
+ElevatedButton(
+  onPressed: () {
+    Navigator.pushNamed(context, '/Checkout'); // Navigate to CheckoutPage
+  },
+  style: ElevatedButton.styleFrom(
+    padding: Directionality.of(context) == TextDirection.rtl
+        ? const EdgeInsets.symmetric(horizontal: 24, vertical: 8) // Arabic padding
+        : const EdgeInsets.symmetric(horizontal: 23, vertical: 10),
+    backgroundColor: Colors.white, // Button background color
+    foregroundColor: Colors.black, // Text color
+    elevation: 0,
+    side: const BorderSide(
+      color: Color.fromARGB(255, 230, 230, 230),
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+  child: Row(
+    children: [
+      Image.asset('assets/Frame.png'),
+      const SizedBox(width: 5),
+      Text(
+        AppLocalizations.of(context)!.addToCompare, // Localized string
+        style: const TextStyle(fontSize: 15),
+      ),
+    ],
+  ),
+)
                 ],
               ),
             ),

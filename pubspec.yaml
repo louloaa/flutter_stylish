@@ -52,6 +52,9 @@ dependencies:
   google_fonts: ^6.2.1
   dartz: ^0.10.1
   get_it: ^8.0.1
+  lottie: ^3.2.0
+  animated_splash_screen: ^1.3.0
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -105,6 +108,17 @@ flutter:
     - assets/shopping.png
     - assets/placeholder_image.png
     - assets/profile.png
+    - assets/Stylish.png
+    - assets/animation/Main Scene.json
+    - assets/choose_products_image.png
+    - assets/make_payment.png
+    - assets/get_your_order.png
+    - assets/Group.png
+    - assets/Group2.png
+    - assets/location.png
+    - assets/Place Order.png
+    - assets/Shipping.png
+    - assets/Sucessfully.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

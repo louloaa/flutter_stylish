@@ -71,5 +71,6 @@
     "cancel": "CANCEL",
     "save": "SAVE",
     "discardChanges": "Changes discarded.",
-    "profileUpdated": "Profile updated successfully!"
+    "profileUpdated": "Profile updated successfully!",
+    "checkoutTitle": "Checkout"
   }

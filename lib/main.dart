@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/bloc/auth_bloc.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/pages/sign_in.dart';
-import 'package:flutter_stylish/features/authaintecation/presentation/pages/sign_up.dart';
+import 'package:flutter_stylish/features/auth&splash/presentation/bloc/auth_bloc.dart';
+import 'package:flutter_stylish/features/auth&splash/presentation/pages/sign_in.dart';
+import 'package:flutter_stylish/features/auth&splash/presentation/pages/sign_up.dart';
 import 'package:flutter_stylish/features/profile/presentation/bloc/user_bloc.dart';
 import 'package:flutter_stylish/features/profile/presentation/bloc/user_event.dart';
 import 'package:flutter_stylish/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:provider/provider.dart';
+import 'features/auth&splash/presentation/pages/onbording.dart';
+import 'features/auth&splash/presentation/pages/splash_screen.dart';
 import 'features/product/presentation/bloc/product_bloc.dart';
+import 'features/product/presentation/pages/checkout.dart';
 import 'features/product/presentation/pages/home_page.dart';
+import 'features/product/presentation/pages/payment.dart';
 import 'features/product/presentation/pages/product_page.dart';
+import 'features/product/presentation/pages/shopping_bag.dart';
 import 'features/product/presentation/pages/trending_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -92,14 +97,19 @@ class MyApp extends StatelessWidget {
             locale: localizationProvider.locale ?? const Locale('en'),
 
             // Routes
-            initialRoute: '/edit_profile',
+            initialRoute: '/Splash_Screen',
             routes: {
+              '/sign_up': (context) => const SignUpPage(),
+              '/sign_in': (context) => const SignInPage(),
+              '/edit_profile': (context) => const EditProfilePage(),
+              '/Splash_Screen': (context) => const SplashScreen(),              
+              '/OnboardingPage': (context) => const OnboardingPage(),
+              '/ShoppingBagPage': (context) => const ShoppingBagPage(),
+              '/PaymentPage': (context) => const PaymentPage(),
               '/home': (context) => HomePage(getProductsUseCase: di.sl()),
               '/trending': (context) => TrendingPage(getProductsUseCase: di.sl()),
               '/product': (context) => ProductPage(getProductsUseCase: di.sl()),
-              '/sign_in': (context) => const SignInPage(),
-              '/sign_up': (context) => const SignUpPage(),
-              '/edit_profile': (context) => const EditProfilePage(),
+              '/Checkout': (context) => CheckoutPage(getProductsUseCase: di.sl()),            
             },
 
             localeResolutionCallback: (locale, supportedLocales) {

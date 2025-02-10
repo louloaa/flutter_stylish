@@ -1,8 +1,8 @@
-import 'package:flutter_stylish/features/authaintecation/data/datasources/auth_remote_data_source.dart';
-import 'package:flutter_stylish/features/authaintecation/data/repositories/auth_repository_impl.dart';
-import 'package:flutter_stylish/features/authaintecation/domain/repositories/auth_repository.dart';
-import 'package:flutter_stylish/features/authaintecation/domain/usecases/sign_in_usecase.dart';
-import 'package:flutter_stylish/features/authaintecation/domain/usecases/sign_up_usecase.dart';
+import 'package:flutter_stylish/features/auth&splash/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_stylish/features/auth&splash/data/repositories/auth_repository_impl.dart';
+import 'package:flutter_stylish/features/auth&splash/domain/repositories/auth_repository.dart';
+import 'package:flutter_stylish/features/auth&splash/domain/usecases/sign_in_usecase.dart';
+import 'package:flutter_stylish/features/auth&splash/domain/usecases/sign_up_usecase.dart';
 import 'package:flutter_stylish/features/product/data/datasources/product_remote_data_source.dart';
 import 'package:flutter_stylish/features/product/data/repositories/product_repository.dart';
 import 'package:flutter_stylish/features/product/domain/repositories/product_repository.dart';

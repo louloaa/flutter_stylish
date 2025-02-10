@@ -19,10 +19,12 @@ class FetchTrendingProducts extends ProductEvent {}
 // Event for fetching all general products
 class FetchAllProducts extends ProductEvent {}
 
+class FetchCheckout extends ProductEvent {}
+
 class NavigateToHomeEvent extends ProductEvent {}
 
 class NavigateTrendingEvent extends ProductEvent {}
 
 class NavigateProudctsEvent extends ProductEvent {}
 
-
+class NavigateCheckoutEvent  extends ProductEvent {}

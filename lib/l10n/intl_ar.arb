@@ -69,5 +69,6 @@
     "cancel": "إلغاء",
     "save": "حفظ",
     "discardChanges": "تم تجاهل التعديلات.",
-    "profileUpdated": "تم تحديث الملف الشخصي بنجاح!" 
+    "profileUpdated": "تم تحديث الملف الشخصي بنجاح!" ,
+    "checkoutTitle": "الدفع"
   }

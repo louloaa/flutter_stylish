@@ -27,6 +27,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<FetchAllProducts>((event, emit) async {
       await _handleFetchProducts(emit, event);
     });
+ 
+   // checkout New***
+        on<FetchCheckout>((event, emit) async {
+      await _handleFetchProducts(emit, event);
+    });
 
     // Handle navigation events
     on<NavigateToHomeEvent>((event, emit) {
@@ -36,6 +41,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<NavigateTrendingEvent>((event, emit) {
       emit(TrendingState()); // Navigate to Trending screen
     });
+
+    //checkout****
+      on<NavigateCheckoutEvent>((event, emit) {
+      emit(CheckoutState()); 
+    });
+
   }
 
   // Method to handle fetching products with pagination

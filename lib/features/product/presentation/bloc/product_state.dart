@@ -46,5 +46,7 @@ class TrendingState extends ProductState {}
 
 class ProudctsState extends ProductState {}
 
+class CheckoutState extends ProductState {}
+
 
 
