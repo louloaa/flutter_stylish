@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_stylish/core/util/snackbar_message.dart';
-import 'package:flutter_stylish/features/auth&splash/presentation/bloc/auth_event.dart';
+import 'package:stylish/core/util/snackbar_message.dart';
+import 'package:stylish/features/auth&splash/presentation/bloc/auth_event.dart';
 import '../../../product/presentation/widgets/drawer.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';

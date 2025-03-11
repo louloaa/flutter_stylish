@@ -1,6 +1,6 @@
 // domain/usecases/update_user_profile.dart
 import 'package:dartz/dartz.dart';
-import 'package:flutter_stylish/core/error/failures.dart';
+import 'package:stylish/core/error/failures.dart';
 import '../entities/user_entity.dart';
 import '../repositories/user_repository.dart';
 

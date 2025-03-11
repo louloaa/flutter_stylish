@@ -1,4 +1,4 @@
-import 'package:flutter_stylish/features/product/domain/entities/product.dart';
+import 'package:stylish/features/product/domain/entities/product.dart';
 class ProductModel extends Product {
   ProductModel({
     required super.id,

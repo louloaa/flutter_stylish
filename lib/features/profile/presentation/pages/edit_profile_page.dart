@@ -1,8 +1,8 @@
 // presentation/pages/edit_profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_stylish/core/util/snackbar_message.dart';
-import 'package:flutter_stylish/features/product/presentation/widgets/drawer.dart';
+import 'package:stylish/core/util/snackbar_message.dart';
+import 'package:stylish/features/product/presentation/widgets/drawer.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
 import '../bloc/user_state.dart';

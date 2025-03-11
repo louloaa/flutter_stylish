@@ -1,6 +1,6 @@
 // domain/repositories/user_repository.dart
 import 'package:dartz/dartz.dart';
-import 'package:flutter_stylish/core/error/failures.dart';
+import 'package:stylish/core/error/failures.dart';
 import '../entities/user_entity.dart';
 
 abstract class UserRepository {

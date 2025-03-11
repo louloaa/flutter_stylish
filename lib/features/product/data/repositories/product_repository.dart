@@ -1,6 +1,6 @@
-import 'package:flutter_stylish/features/product/data/datasources/product_remote_data_source.dart';
-import 'package:flutter_stylish/features/product/domain/entities/product.dart';
-import 'package:flutter_stylish/features/product/domain/repositories/product_repository.dart';
+import 'package:stylish/features/product/data/datasources/product_remote_data_source.dart';
+import 'package:stylish/features/product/domain/entities/product.dart';
+import 'package:stylish/features/product/domain/repositories/product_repository.dart';
 import '../models/product_model.dart';
 class ProductRepositoryImpl implements ProductRepository {
   final RemoteDataSource remoteDataSource;

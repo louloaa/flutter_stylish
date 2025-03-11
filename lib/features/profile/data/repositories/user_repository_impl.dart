@@ -1,6 +1,6 @@
 // data/repositories/user_repository_impl.dart
 import 'package:dartz/dartz.dart';
-import 'package:flutter_stylish/core/error/failures.dart';
+import 'package:stylish/core/error/failures.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/remote_data_source.dart';

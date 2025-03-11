@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_stylish/core/util/snackbar_message.dart';
+import 'package:stylish/core/util/snackbar_message.dart';
 import '../../domain/usecases/getproducts.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';

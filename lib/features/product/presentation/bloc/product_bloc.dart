@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_stylish/features/product/domain/usecases/getproducts.dart';
+import 'package:stylish/features/product/domain/usecases/getproducts.dart';
 import '../../domain/entities/product.dart';
 import 'product_event.dart';
 import 'product_state.dart';
